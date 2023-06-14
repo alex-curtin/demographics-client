@@ -12,6 +12,8 @@ import {
 
 import { CustomersContext } from '../../../store/customers-context';
 import { getDataVizColor } from '../../../utils/data-visualization';
+import { alphaSortObject } from '../../../utils/general';
+import { demoCategoryMapper } from '../../../constants';
 
 export const DemoSelector = ({ category, demos, color }) => {
   const { setDemoOptions, demoOptions } = useContext(CustomersContext);
@@ -34,25 +36,26 @@ export const DemoSelector = ({ category, demos, color }) => {
   return (
     <Box>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel>{category}</InputLabel>
+        <InputLabel>{demoCategoryMapper[category]}</InputLabel>
         <Select
           multiple
           value={demos.filter(d => d.selected).map(d => d.label)}
           onChange={() => {}}
           input={<OutlinedInput label={category} />}
           renderValue={selected => selected.join(', ')}
-          // MenuProps={MenuProps}
         >
-          {demos.map(demo => (
-            <MenuItem key={demo.label} value={demo.label}>
-              <Checkbox
-                checked={demo.selected}
-                onChange={() => handleChange(category, demo)}
-                sx={{ color: `${color} !important` }}
-              />
-              <ListItemText primary={demo.label} />
-            </MenuItem>
-          ))}
+          {demos
+            .sort((a, b) => alphaSortObject(a, b, 'label'))
+            .map(demo => (
+              <MenuItem key={demo.label} value={demo.label}>
+                <Checkbox
+                  checked={demo.selected}
+                  onChange={() => handleChange(category, demo)}
+                  sx={{ color: `${color} !important` }}
+                />
+                <ListItemText primary={demo.label} />
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
     </Box>

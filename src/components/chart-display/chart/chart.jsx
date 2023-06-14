@@ -2,6 +2,7 @@ import { Box, Typography, Tooltip } from '@mui/material';
 
 import { getDataVizColor } from '../../../utils/data-visualization';
 import { alphaSortObjectEntries } from '../../../utils/general';
+import { demoCategoryMapper } from '../../../constants';
 
 export const Chart = ({ productName, data }) => {
   return (
@@ -32,7 +33,20 @@ export const Chart = ({ productName, data }) => {
               {Object.entries(demos)
                 .sort(alphaSortObjectEntries)
                 .map(([demoName, stats]) => (
-                  <Tooltip key={demoName} title={demoName}>
+                  <Tooltip
+                    key={demoName}
+                    arrow
+                    title={
+                      <Box>
+                        <Typography>
+                          {demoCategoryMapper[category]}: {demoName}
+                        </Typography>
+                        <Typography>
+                          {Math.round(stats.percentage * 10) / 10}%
+                        </Typography>
+                      </Box>
+                    }
+                  >
                     <Box
                       sx={{
                         width: `${stats.percentage}%`,
