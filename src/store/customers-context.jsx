@@ -71,10 +71,10 @@ const CustomersProvider = ({ children }) => {
       const body = getDemoDataBody();
       const data = await fetchDemoDataByProduct(productId, body);
 
-      setDemoData({
-        ...demoData,
+      setDemoData(prevDemoData => ({
+        ...prevDemoData,
         [productId]: data,
-      });
+      }));
     };
 
     selectedProducts.forEach(prodId => {
