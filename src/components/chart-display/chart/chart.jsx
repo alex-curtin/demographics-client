@@ -62,6 +62,22 @@ export const Chart = ({ productName, data }) => {
             </Box>
           ))}
       </Box>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', maxWidth: '80%', gap: 2 }}>
+        {Object.keys(data)
+          .sort()
+          .map((cat, i) => (
+            <Box key={cat} sx={{ display: 'flex', gap: 1 }}>
+              <Box
+                sx={{
+                  height: '100%',
+                  width: '20px',
+                  background: `${getDataVizColor(i)}`,
+                }}
+              />
+              <Typography variant="body2">{demoCategoryMapper[cat]}</Typography>
+            </Box>
+          ))}
+      </Box>
     </Box>
   );
 };
